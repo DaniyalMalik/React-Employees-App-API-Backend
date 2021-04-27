@@ -23,6 +23,30 @@ const Users = [
     DoJ: '2021-04-01',
     salary: '7000',
   },
+  {
+    id: 4,
+    name: 'Hailee Steinfeld',
+    email: 'hailee@gmail.com',
+    phone: '03123456789',
+    DoJ: '2021-04-01',
+    salary: '7000',
+  },
+  {
+    id: 5,
+    name: 'Anne Marie',
+    email: 'anne@gmail.com',
+    phone: '03123456789',
+    DoJ: '2021-04-01',
+    salary: '7000',
+  },
+  {
+    id: 6,
+    name: 'Lionel Messi',
+    email: 'lionel@gmail.com',
+    phone: '03123456789',
+    DoJ: '2021-04-01',
+    salary: '7000',
+  },
 ];
 
 module.exports = Users;

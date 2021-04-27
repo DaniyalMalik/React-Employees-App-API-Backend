@@ -1,35 +1,23 @@
-const express = require('express');
-const router = express.Router();
-let Users = require('../../Users');
+let Users = require('../data/users');
 const uuid = require('uuid');
 
-// Get users
-router.get('/', (req, res) => {
+// Get all users
+exports.getUsers = (req, res, next) => {
   res.json(Users);
-});
+};
 
-// Get a selected user
-router.get('/:id', (req, res) => {
+// Get single user
+exports.getUser = (req, res, next) => {
   const id = req.params.id;
 
   const found = Users.some((user) => user.id == id);
   found
     ? res.json(Users.filter((user) => user.id == id))
     : res.status(404).json({ error: `User with the id: ${id} not found!` });
-});
+};
 
-// Deleting a user
-router.delete('/:id', (req, res) => {
-  const id = req.params.id;
-  const found = Users.some((user) => user.id == id);
-
-  found
-    ? res.json((Users = Users.filter((user) => user.id != id)))
-    : res.status(404).json({ error: `No user with the id: ${id} found!` });
-});
-
-// Add a user
-router.post('/', (req, res) => {
+// Create a user
+exports.createUser = (req, res, next) => {
   const data = req.body;
   const newUSer = {
     id: uuid.v4(),
@@ -42,11 +30,11 @@ router.post('/', (req, res) => {
 
   Users.push(newUSer);
 
-  res.json({ error: `Data Cannot be Added!`, Users });
-});
+  res.json({ error: `Data Added!`, Users });
+};
 
 // Update a user
-router.put('/:id', (req, res) => {
+exports.updateUser = (req, res, next) => {
   const id = req.params.id;
   const updUser = req.body;
   const found = Users.some((user) => user.id == id);
@@ -66,6 +54,14 @@ router.put('/:id', (req, res) => {
         }
       })
     : res.json({ error: `No user with the id ${id} found!` });
-});
+};
 
-module.exports = router;
+// Delte a user
+exports.deleteUser = (req, res, next) => {
+  const id = req.params.id;
+  const found = Users.some((user) => user.id == id);
+
+  found
+    ? res.json((Users = Users.filter((user) => user.id != id)))
+    : res.status(404).json({ error: `No user with the id: ${id} found!` });
+};
