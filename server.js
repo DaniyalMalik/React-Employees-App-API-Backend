@@ -5,16 +5,32 @@ const express = require('express'),
   methodOverride = require('method-override'),
   employeeRoutes = require('./routes/employees'),
   connectDB = require('./config/db'),
-  colors = require('colors');
+  colors = require('colors'),
+  morgan = require('morgan');
 
 dotenv.config({ path: 'config/config.env' });
 
 connectDB();
+
 // app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000/');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
+app.use(morgan('dev'));
 
 app.use('/api/v1/employees', employeeRoutes);
 
