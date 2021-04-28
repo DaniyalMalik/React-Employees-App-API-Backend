@@ -1,4 +1,4 @@
-const Users = [
+const Employees = [
   {
     id: 1,
     name: 'Daniyal Malik',
@@ -49,4 +49,4 @@ const Users = [
   },
 ];
 
-module.exports = Users;
+module.exports = Employees;
