@@ -15,7 +15,7 @@ exports.getEmployees = async (req, res, next) => {
   } catch (error) {
     res
       .status(400)
-      .json({ success: false, message: 'Data cannot be retrieved!' });
+      .json({ success: false, error: 'Data cannot be retrieved!' });
   }
 };
 
@@ -26,13 +26,16 @@ exports.getEmployee = async (req, res, next) => {
     const employee = await Employee.findById(id);
 
     if (!employee) {
-      return res
-        .status(400)
-        .json({ success: false, error: `No user with the id ${id} found!` });
+      return res.status(400).json({
+        success: false,
+        error: `No user with the id ${id} found!`,
+      });
     }
 
     res.status(200).json({ success: true, data: employee });
   } catch (error) {
+    const id = req.params.id;
+
     res
       .status(400)
       .json({ success: false, error: `No user with the id ${id} found!` });
@@ -78,15 +81,18 @@ exports.updateEmployee = async (req, res, next) => {
     });
 
     if (!employee) {
-      return res
-        .status(400)
-        .json({ success: false, error: `No user with the id ${id} found!` });
+      return res.status(400).json({
+        success: false,
+        error: `No user with the id ${id} found!`,
+      });
     }
 
     res
       .status(200)
       .json({ success: true, message: 'Data Updated!', data: employee });
   } catch (error) {
+    const id = req.params.id;
+
     res
       .status(400)
       .json({ success: false, error: `No user with the id ${id} found!` });
@@ -125,17 +131,26 @@ exports.deleteEmployee = async (req, res, next) => {
   try {
     const id = req.params.id;
     const employee = await Employee.findByIdAndDelete(id);
+    const employees = await Employee.find();
 
     if (!employee) {
-      return res
-        .status(400)
-        .json({ success: false, error: `No user with the id ${id} found!` });
+      return res.status(400).json({
+        success: false,
+        error: `No user with the id ${id} found!`,
+      });
     }
 
     res
       .status(200)
-      .json({ success: true, message: 'Data Deleted!', data: employee });
+      .json({
+        success: true,
+        message: 'Data Deleted!',
+        data: employee,
+        employees,
+      });
   } catch (error) {
+    const id = req.params.id;
+
     res
       .status(400)
       .json({ success: false, error: `No user with the id ${id} found!` });
