@@ -31,6 +31,10 @@ const MongooseSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter a salary!'],
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('Employee', MongooseSchema);

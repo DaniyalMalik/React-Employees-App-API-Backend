@@ -4,6 +4,7 @@ const express = require('express'),
   dotenv = require('dotenv'),
   methodOverride = require('method-override'),
   employeeRoutes = require('./routes/employees'),
+  userRoutes = require('./routes/auth'),
   connectDB = require('./config/db'),
   colors = require('colors'),
   morgan = require('morgan');
@@ -33,6 +34,7 @@ app.use(methodOverride('_method'));
 app.use(morgan('dev'));
 
 app.use('/api/v1/employees', employeeRoutes);
+app.use('/api/v1/auth', userRoutes);
 
 const PORT = process.env.PORT || 5000;
 const ENVIRONMENT = process.env.NODE_ENV;
