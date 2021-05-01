@@ -10,6 +10,10 @@ const express = require('express'),
 
 router.route('/').get(getEmployees).post(createEmployee);
 
-router.route('/:id').get(getEmployee).put(updateEmployee).delete(deleteEmployee);
+router
+  .route('/:id')
+  .get(getEmployee)
+  .put(updateEmployee)
+  .delete(deleteEmployee);
 
 module.exports = router;
