@@ -1,5 +1,7 @@
 // let Employees = require('../data/employees');
-const Employee = require('../models/Employee');
+const uuid = require('uuid'),
+  Employee = require('../models/Employee');
+const Employees = require('../data/employees');
 
 // Get all employees
 exports.getEmployees = async (req, res, next) => {
@@ -7,13 +9,13 @@ exports.getEmployees = async (req, res, next) => {
   try {
     const employees = await Employee.find();
 
-    res.status(200).json({
-      success: true,
-      count: employees.length,
-      data: employees,
-    });
+    res
+      .status(200)
+      .json({ success: true, count: employees.length, data: employees });
   } catch (error) {
-    res.json({ success: false, message: 'Data cannot be retrieved!' });
+    res
+      .status(400)
+      .json({ success: false, message: 'Data cannot be retrieved!' });
   }
 };
 
@@ -24,17 +26,18 @@ exports.getEmployee = async (req, res, next) => {
     const employee = await Employee.findById(id);
 
     if (!employee) {
-      return res.json({
-        success: false,
-        message: `No user with the id ${id} found!`,
-      });
+      return res
+        .status(400)
+        .json({ success: false, error: `No user with the id ${id} found!` });
     }
 
     res.status(200).json({ success: true, data: employee });
   } catch (error) {
     const id = req.params.id;
 
-    res.json({ success: false, message: `No user with the id ${id} found!` });
+    res
+      .status(400)
+      .json({ success: false, error: `No user with the id ${id} found!` });
   }
 
   // const found = Employees.some((employee) => employee.id == id);
@@ -52,7 +55,7 @@ exports.createEmployee = async (req, res, next) => {
       .status(201)
       .json({ success: true, message: `Data Added!`, data: employee });
   } catch (error) {
-    res.json({ success: false, message: `Data cannot be added!` });
+    res.status(400).json({ success: false, error: `Data cannot be added!` });
   }
   // const newEmployee = {
   //   id: uuid.v4(),
@@ -77,10 +80,9 @@ exports.updateEmployee = async (req, res, next) => {
     });
 
     if (!employee) {
-      return res.json({
-        success: false,
-        message: `No user with the id ${id} found!`,
-      });
+      return res
+        .status(400)
+        .json({ success: false, error: `No user with the id ${id} found!` });
     }
 
     res
@@ -89,7 +91,9 @@ exports.updateEmployee = async (req, res, next) => {
   } catch (error) {
     const id = req.params.id;
 
-    res.json({ success: false, message: `No user with the id ${id} found!` });
+    res
+      .status(400)
+      .json({ success: false, error: `No user with the id ${id} found!` });
   }
   // const found = Employees.some((employee) => employee.id == id);
 
@@ -125,25 +129,20 @@ exports.deleteEmployee = async (req, res, next) => {
   try {
     const id = req.params.id;
     const employee = await Employee.findByIdAndDelete(id);
-    const employees = await Employee.find();
 
     if (!employee) {
-      return res.json({
-        success: false,
-        message: `No user with the id ${id} found!`,
-      });
+      return res
+        .status(400)
+        .json({ success: false, error: `No user with the id ${id} found!` });
     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Data Deleted!',
-      data: employee,
-      employees,
-    });
+    res
+      .status(200)
+      .json({ success: true, message: 'Data Deleted!', data: employee });
   } catch (error) {
-    const id = req.params.id;
-
-    res.json({ success: false, message: `No user with the id ${id} found!` });
+    res
+      .status(400)
+      .json({ success: false, error: `No user with the id ${id} found!` });
   }
   // const id = req.params.id;
   // const found = Employee.some((employee) => employee.id == id);
