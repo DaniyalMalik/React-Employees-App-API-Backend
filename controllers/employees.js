@@ -2,20 +2,20 @@
 const Employee = require('../models/Employee');
 
 // Get all employees
-exports.getEmployees = async (req, res, next) => {
-  // res.json(Employees);
-  try {
-    const employees = await Employee.find();
+// exports.getEmployees = async (req, res, next) => {
+//   // res.json(Employees);
+//   try {
+//     const employees = await Employee.find();
 
-    res.status(200).json({
-      success: true,
-      count: employees.length,
-      data: employees,
-    });
-  } catch (error) {
-    res.json({ success: false, message: 'Data cannot be retrieved!' });
-  }
-};
+//     res.status(200).json({
+//       success: true,
+//       count: employees.length,
+//       data: employees,
+//     });
+//   } catch (error) {
+//     res.json({ success: false, message: 'Data cannot be retrieved!' });
+//   }
+// };
 
 // Get an employee
 exports.getEmployee = async (req, res, next) => {
