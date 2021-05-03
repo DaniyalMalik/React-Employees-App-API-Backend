@@ -6,14 +6,15 @@ const express = require('express'),
     createEmployee,
     updateEmployee,
     deleteEmployee,
-  } = require('../controllers/employees');
+  } = require('../controllers/employees'),
+  { protect } = require('../middleware/auth');
 
-router.route('/').get(getEmployees).post(createEmployee);
+router.route('/').get(protect, getEmployees).post(protect, createEmployee);
 
 router
   .route('/:id')
-  .get(getEmployee)
-  .put(updateEmployee)
-  .delete(deleteEmployee);
+  .get(protect, getEmployee)
+  .put(protect, updateEmployee)
+  .delete(protect, deleteEmployee);
 
 module.exports = router;

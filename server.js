@@ -7,7 +7,8 @@ const express = require('express'),
   userRoutes = require('./routes/auth'),
   connectDB = require('./config/db'),
   colors = require('colors'),
-  morgan = require('morgan');
+  morgan = require('morgan'),
+  cookieParser = require('cookie-parser');
 
 dotenv.config({ path: 'config/config.env' });
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+app.use(cookieParser());
 app.use(morgan('dev'));
 
 app.use('/api/v1/employees', employeeRoutes);
