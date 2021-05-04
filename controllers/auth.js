@@ -9,7 +9,7 @@ exports.register = async (req, res, next) => {
     password,
   });
 
-  sendTokenResponse(user, 200, res);
+  sendTokenResponse(user, 200, res, 'User Registered!');
 };
 
 exports.login = async (req, res, next) => {
@@ -17,29 +17,28 @@ exports.login = async (req, res, next) => {
   const user = await User.findOne({ email }).select('+password');
 
   if (!user) {
-    return res
-      .status(404)
-      .json({ success: false, message: 'Invalid Credentials!' });
+    return res.json({ success: false, message: 'Invalid Credentials!' });
   }
 
   const isSame = await user.matchPassword(password);
 
   if (!isSame) {
-    return res
-      .status(404)
-      .json({ success: false, message: 'Invalid Credentials!' });
+    return res.json({ success: false, message: 'Invalid Credentials!' });
   }
 
-  sendTokenResponse(user, 200, res);
+  sendTokenResponse(user, 200, res, 'User Logged In!');
 };
 
 exports.getMe = async (req, res, next) => {
   const user = await User.findById(req.user.id);
 
-  res.status(200).json({ success: 200, data: user, message: 'User Found!' });
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
 };
 
-const sendTokenResponse = (user, status, res) => {
+const sendTokenResponse = (user, status, res, message) => {
   const token = user.getSignedJwtToken();
 
   const options = {
@@ -53,8 +52,5 @@ const sendTokenResponse = (user, status, res) => {
     options.secure = true;
   }
 
-  res
-    .status(status)
-    .cookie('token', token, options)
-    .json({ success: true, token });
+  res.cookie('token', token, options).json({ success: true, token, message });
 };

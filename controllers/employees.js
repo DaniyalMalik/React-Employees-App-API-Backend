@@ -5,7 +5,8 @@ const Employee = require('../models/Employee');
 exports.getEmployees = async (req, res, next) => {
   // res.json(Employees);
   try {
-    const employees = await Employee.find();
+    // const employees = await Employee.find({ user_id: req.user.id }).populate('user_id');
+    const employees = await Employee.find({ user_id: req.user.id });
 
     res.status(200).json({
       success: true,
@@ -47,6 +48,7 @@ exports.getEmployee = async (req, res, next) => {
 exports.createEmployee = async (req, res, next) => {
   try {
     const data = req.body;
+    data.user_id = req.user.id;
     const employee = await Employee.create(data);
     res
       .status(201)
@@ -125,7 +127,7 @@ exports.deleteEmployee = async (req, res, next) => {
   try {
     const id = req.params.id;
     const employee = await Employee.findByIdAndDelete(id);
-    const employees = await Employee.find();
+    const employees = await Employee.find({ user_id: req.user.id });
 
     if (!employee) {
       return res.json({

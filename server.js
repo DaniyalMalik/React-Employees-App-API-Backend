@@ -2,6 +2,7 @@ const express = require('express'),
   // path = require('path'),
   app = express(),
   dotenv = require('dotenv'),
+  // cors = require('cors'),
   methodOverride = require('method-override'),
   employeeRoutes = require('./routes/employees'),
   userRoutes = require('./routes/auth'),
@@ -11,8 +12,6 @@ const express = require('express'),
   cookieParser = require('cookie-parser');
 
 dotenv.config({ path: 'config/config.env' });
-
-connectDB();
 
 // app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,15 +27,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-
-app.use(cookieParser());
 app.use(morgan('dev'));
 
 app.use('/api/v1/employees', employeeRoutes);
-app.use('/api/v1/auth', userRoutes);
+app.use('/api/auth', userRoutes);
 
 const PORT = process.env.PORT || 5000;
 const ENVIRONMENT = process.env.NODE_ENV;
@@ -46,6 +45,8 @@ const server = app.listen(PORT, () =>
     `Server started running in ${ENVIRONMENT} mode on PORT ${PORT}`.blue.bold,
   ),
 );
+
+connectDB();
 
 process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`.red.bold);

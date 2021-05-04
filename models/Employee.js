@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const MongooseSchema = new mongoose.Schema({
   //   name: String,
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Users',
+  },
   name: {
     type: String,
     required: [true, 'Please enter a name!'],
@@ -24,8 +29,7 @@ const MongooseSchema = new mongoose.Schema({
   },
   DoJ: {
     type: Date,
-    //  default: Date.now(),
-    required: [true, 'Please enter a date!'],
+     default: Date.now(),
   },
   salary: {
     type: String,

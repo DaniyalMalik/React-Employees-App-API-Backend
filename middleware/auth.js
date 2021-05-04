@@ -1,4 +1,3 @@
-const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken'),
   User = require('../models/User');
 
@@ -11,12 +10,9 @@ exports.protect = (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
-  //else if (req.cookies.token) {
-  //     token = req.cookies.token;
-  //   }
 
   if (!token) {
-    res.status(401).json({
+    return res.json({
       success: false,
       message: 'You are not authorized to access this route!',
     });
@@ -27,9 +23,8 @@ exports.protect = (req, res, next) => {
 
     req.user = decoded;
     next();
-    // res.status(200).json({success: false, message: 'You are not authorized to access this route!'})
   } catch (error) {
-    res.status(401).json({
+    res.json({
       success: false,
       message: 'You are not authorized to access this route!',
     });
