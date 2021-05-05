@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const MongooseSchema = new mongoose.Schema({
   //   name: String,
   user_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
+    // type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Users',
   },
@@ -29,7 +30,7 @@ const MongooseSchema = new mongoose.Schema({
   },
   DoJ: {
     type: Date,
-     default: Date.now(),
+    required: [true, 'Please enter a date!'],
   },
   salary: {
     type: String,

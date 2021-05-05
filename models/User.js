@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
   bcrypt = require('bcryptjs'),
-  jwt = require('jsonwebtoken');
+  jwt = require('jsonwebtoken'),
+  crypto = require('crypto');
 
 const MongooseSchema = new mongoose.Schema({
   name: {
@@ -18,7 +19,7 @@ const MongooseSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please enter a strong password'],
+    required: [true, 'Please enter a password'],
     select: false,
   },
   resetPasswordToken: String,
@@ -31,6 +32,10 @@ const MongooseSchema = new mongoose.Schema({
 
 // Encrypting password
 MongooseSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
@@ -45,6 +50,21 @@ MongooseSchema.methods.getSignedJwtToken = function () {
 //Comparing passwords
 MongooseSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+MongooseSchema.methods.getResetPasswordToken = async function () {
+  const resetToken = await crypto.randomBytes(20).toString('hex');
+
+  this.resetPasswordToken = await crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  // this.save({ validateBeforeSave: false });
+
+  return resetToken;
 };
 
 module.exports = mongoose.model('Users', MongooseSchema);
