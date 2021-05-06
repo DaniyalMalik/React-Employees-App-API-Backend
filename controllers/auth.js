@@ -12,7 +12,29 @@ exports.register = async (req, res, next) => {
     password,
   });
 
-  sendTokenResponse(user, 200, res, 'User Registered!');
+  const resetUrl = `http://localhost:3000/verifyemail/${user.email}`;
+
+  const message = `Click the following link to verify your email: \n${resetUrl}`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Email Verification',
+      message,
+    });
+
+    res.json({
+      success: true,
+      message: 'An email for verification is sent to you!',
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.json({
+      success: false,
+      message: `Email to ${user.email} could not be sent!`,
+    });
+  }
 };
 
 // Login a User
@@ -30,7 +52,42 @@ exports.login = async (req, res, next) => {
     return res.json({ success: false, message: 'Invalid Credentials!' });
   }
 
+  if (!user.emailVerified) {
+    return res.json({
+      success: false,
+      message: 'You must verify your email first!',
+    });
+  }
+
   sendTokenResponse(user, 200, res, 'User Logged In!');
+};
+
+exports.logout = async (req, res, next) => {
+  res
+    .cookie('token', 'none', {
+      expires: new Date(Date.now() + 1 * 1000),
+      httpOnly: true,
+    })
+    .json({ success: true, message: 'Logged Off' });
+};
+
+exports.verifyEmail = async (req, res, next) => {
+  const user = await User.findOne({ email: req.params.email });
+
+  if (!user) {
+    return res.json({
+      success: false,
+      message: `No user with the email: ${req.params.email} found!`,
+    });
+  }
+  user.emailVerified = true;
+
+  await user.save({ validateBeforeSave: false });
+
+  res.json({
+    success: true,
+    message: 'Email Verified!',
+  });
 };
 
 // Get Current Logged In User
@@ -132,7 +189,7 @@ const sendTokenResponse = (user, status, res, message) => {
     options.secure = true;
   }
 
-  res
+  return res
     .cookie('token', token, options)
     .json({ success: true, token, message, user });
 };
