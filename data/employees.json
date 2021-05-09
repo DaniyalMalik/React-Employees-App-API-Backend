@@ -1,0 +1,81 @@
+[  {
+    "name": "Daniyal Malik",
+    "email": "daniyalmalik@gmail.com",
+    "phone": "03127569314",
+    "DoJ": "2021-04-01",
+    "salary": "700000",
+    "user_id": "60965f196ccad235905504a9"
+  },
+  {
+    "name": "Taylor Swift",
+    "email": "taylorswift@gmail.com",
+    "phone": "03121236548",
+    "DoJ": "2021-04-01",
+    "user_id": "60965f196ccad235905504a9",
+    "salary": "700045"
+  },
+  {
+    "name": "Ed Sheeran",
+    "email": "edsheeran@gmail.com",
+    "phone": "03121236549",
+    "user_id": "60965f196ccad235905504a9",
+    "DoJ": "2021-04-01",
+    "salary": "700078846"
+  },
+  {
+    "name": "Hailee Steinfeld",
+    "email": "hailee@gmail.com",
+    "user_id": "60965f196ccad235905504a9",
+    "phone": "03121236544",
+    "DoJ": "2021-04-01",
+    "salary": "7000496"
+  },
+  {
+    "name": "Anne Marie",
+    "email": "anne@gmail.com",
+    "user_id": "60965f196ccad235905504a9",
+    "phone": "03121236545",
+    "DoJ": "2021-04-01",
+    "salary": "7000787"
+  },
+  {
+    "name": "Atif Aslam",
+    "email": "atif@gmail.com",
+    "phone": "03121236546",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700031"
+  },
+  {
+    "name": "Neymar Junior",
+    "email": "ney@gmail.com",
+    "phone": "03121236541",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700074"
+  },
+  {
+    "name": "Professor",
+    "email": "professor@gmail.com",
+    "phone": "03121236542",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "70005656121"
+  },
+  {
+    "name": "Eminem",
+    "email": "eminem@gmail.com",
+    "phone": "03121236543",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700051"
+  },
+  {
+    "name": "Emiley Jackson",
+    "email": "emiley@gmail.com",
+    "phone": "03121236585",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  }
+]

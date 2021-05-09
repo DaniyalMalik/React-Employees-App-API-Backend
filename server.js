@@ -9,7 +9,12 @@ const express = require('express'),
   connectDB = require('./config/db'),
   colors = require('colors'),
   morgan = require('morgan'),
-  cookieParser = require('cookie-parser');
+  xss = require('xss-clean'),
+  cookieParser = require('cookie-parser'),
+  helmet = require('helmet'),
+  hpp = require('hpp'),
+  rateLimit = require('express-rate-limit'),
+  mongoSanitize = require('express-mongo-sanitize');
 
 dotenv.config({ path: 'config/config.env' });
 
@@ -28,12 +33,19 @@ app.use((req, res, next) => {
 });
 
 // app.use(cors());
+app.use(mongoSanitize());
 app.use(cookieParser());
+app.use(helmet());
+app.use(hpp());
+app.use(xss());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(morgan('dev'));
 
+const limiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 100 });
+
+app.use(limiter);
 app.use('/api/v1/employees', employeeRoutes);
 app.use('/api/auth', userRoutes);
 
