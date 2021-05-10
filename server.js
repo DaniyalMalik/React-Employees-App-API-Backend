@@ -13,6 +13,7 @@ const express = require('express'),
   cookieParser = require('cookie-parser'),
   helmet = require('helmet'),
   hpp = require('hpp'),
+  error = require('./middleware/error'),
   rateLimit = require('express-rate-limit'),
   mongoSanitize = require('express-mongo-sanitize');
 
@@ -32,6 +33,8 @@ app.use((req, res, next) => {
   next();
 });
 
+const limiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 100 });
+
 // app.use(cors());
 app.use(mongoSanitize());
 app.use(cookieParser());
@@ -42,12 +45,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(morgan('dev'));
-
-const limiter = rateLimit({ windowMs: 10 * 60 * 1000, max: 100 });
-
 app.use(limiter);
+
 app.use('/api/v1/employees', employeeRoutes);
 app.use('/api/auth', userRoutes);
+app.use(error);
 
 const PORT = process.env.PORT || 5000;
 const ENVIRONMENT = process.env.NODE_ENV;

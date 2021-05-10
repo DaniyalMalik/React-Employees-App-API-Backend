@@ -1,10 +1,11 @@
 // let Employees = require('../data/employees');
-const Employee = require('../models/Employee');
+const Employee = require('../models/Employee'),
+  ErrorResponse = require('../utils/errorResponse');
 
 // Get all employees
 exports.getEmployees = async (req, res, next) => {
-  // res.json(Employees);
   try {
+    // res.json(Employees);
     // const employees = await Employee.find({ user_id: req.user.id }).populate('user_id');
     const employees = await Employee.find({ user_id: req.user.id });
 
@@ -14,7 +15,7 @@ exports.getEmployees = async (req, res, next) => {
       data: employees,
     });
   } catch (error) {
-    res.json({ success: false, message: 'Data cannot be retrieved!' });
+    next(new ErrorResponse('Data cannot be retrieved!', 404));
   }
 };
 
@@ -25,17 +26,14 @@ exports.getEmployee = async (req, res, next) => {
     const employee = await Employee.findById(id);
 
     if (!employee) {
-      return res.json({
-        success: false,
-        message: `No user with the id ${id} found!`,
-      });
+      return next(new ErrorResponse(`No user with the id ${id} found!`, 404));
     }
 
     res.status(200).json({ success: true, data: employee });
   } catch (error) {
     const id = req.params.id;
 
-    res.json({ success: false, message: `No user with the id ${id} found!` });
+    next(new ErrorResponse(`No user with the id ${id} found!`, 404));
   }
 
   // const found = Employees.some((employee) => employee.id == id);
@@ -54,8 +52,9 @@ exports.createEmployee = async (req, res, next) => {
       .status(201)
       .json({ success: true, message: `Data Added!`, data: employee });
   } catch (error) {
-    res.json({ success: false, message: `Data cannot be added!` });
+    next(new ErrorResponse(`Data cannot be added!`, 400));
   }
+
   // const newEmployee = {
   //   id: uuid.v4(),
   //   name: data.name,
@@ -79,10 +78,7 @@ exports.updateEmployee = async (req, res, next) => {
     });
 
     if (!employee) {
-      return res.json({
-        success: false,
-        message: `No user with the id ${id} found!`,
-      });
+      return next(new ErrorResponse(`No user with the id ${id} found!`, 404));
     }
 
     res
@@ -91,8 +87,9 @@ exports.updateEmployee = async (req, res, next) => {
   } catch (error) {
     const id = req.params.id;
 
-    res.json({ success: false, message: `No user with the id ${id} found!` });
+    next(new ErrorResponse(`No user with the id ${id} found!`, 404));
   }
+
   // const found = Employees.some((employee) => employee.id == id);
 
   // found
@@ -130,10 +127,7 @@ exports.deleteEmployee = async (req, res, next) => {
     const employees = await Employee.find({ user_id: req.user.id });
 
     if (!employee) {
-      return res.json({
-        success: false,
-        message: `No user with the id ${id} found!`,
-      });
+      return next(new ErrorResponse(`No user with the id ${id} found!`, 404));
     }
 
     res.status(200).json({
@@ -145,8 +139,9 @@ exports.deleteEmployee = async (req, res, next) => {
   } catch (error) {
     const id = req.params.id;
 
-    res.json({ success: false, message: `No user with the id ${id} found!` });
+    next(new ErrorResponse(`No user with the id ${id} found!`, 404));
   }
+
   // const id = req.params.id;
   // const found = Employee.some((employee) => employee.id == id);
 

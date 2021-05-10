@@ -77,5 +77,61 @@
     "user_id": "6093d4535727db057895802e",
     "DoJ": "2021-04-01",
     "salary": "700044"
-  }
+  },
+  {
+    "name": "Emma Watson",
+    "email": "emma@gmail.com",
+    "phone": "03121236585",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  },
+  {
+    "name": "Stephen Curry",
+    "email": "curry@gmail.com",
+    "phone": "03121236585",
+    "user_id": "60965f196ccad235905504a9",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  },
+  {
+    "name": "Michael Jordon",
+    "email": "mj@gmail.com",
+    "phone": "03121236585",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  },
+  {
+    "name": "Djokovic",
+    "email": "dj@gmail.com",
+    "phone": "03121236585",
+    "user_id": "60965f196ccad235905504a9",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  },
+  {
+    "name": "Charlie Puth",
+    "email": "charlie@gmail.com",
+    "phone": "03121236585",
+    "user_id": "60965f196ccad235905504a9",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  },
+  {
+    "name": "Harry Styles",
+    "email": "harry@gmail.com",
+    "phone": "03121236585",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  },
+  {
+    "name": "Young Stunners",
+    "email": "ys@gmail.com",
+    "phone": "03121236585",
+    "user_id": "6093d4535727db057895802e",
+    "DoJ": "2021-04-01",
+    "salary": "700044"
+  },
 ]
