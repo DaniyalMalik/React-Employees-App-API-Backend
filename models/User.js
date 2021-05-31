@@ -17,6 +17,11 @@ const MongooseSchema = new mongoose.Schema({
       'Please enter a valid email address',
     ],
   },
+  // role: {
+  //   type: String,
+  //   enum: ['user', 'publisher'],
+  //   default: 'user',
+  // },
   emailVerified: {
     type: Boolean,
     default: false,
