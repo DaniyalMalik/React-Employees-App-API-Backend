@@ -62,6 +62,7 @@ exports.login = async (req, res, next) => {
   sendTokenResponse(user, 200, res, 'User Logged In!');
 };
 
+// Logout a user
 exports.logout = async (req, res, next) => {
   res
     .cookie('token', 'none', {
@@ -71,6 +72,7 @@ exports.logout = async (req, res, next) => {
     .json({ success: true, message: 'Logged Off' });
 };
 
+// Verify email address
 exports.verifyEmail = async (req, res, next) => {
   const user = await User.findOne({ email: req.params.email });
 
