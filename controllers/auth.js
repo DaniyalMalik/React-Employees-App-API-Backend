@@ -12,27 +12,27 @@ exports.register = async (req, res, next) => {
     password,
   });
 
-  const resetUrl = `http://localhost:3000/verifyemail/${user.email}`;
+  // const resetUrl = `http://localhost:3000/verifyemail/${user.email}`;
 
-  const message = `Click the following link to verify your email: \n${resetUrl}`;
+  // const message = `Click the following link to verify your email: \n${resetUrl}`;
 
   try {
-    await sendEmail({
-      email: user.email,
-      subject: 'Email Verification',
-      message,
-    });
+    // await sendEmail({
+    //   email: user.email,
+    //   subject: 'Email Verification',
+    //   message,
+    // });
 
     res.json({
       success: true,
-      message: 'An email for verification is sent to you!',
+      message: 'Registered!',
     });
   } catch (error) {
     console.log(error);
 
     return res.json({
       success: false,
-      message: `Email to ${user.email} could not be sent!`,
+      message: `Registered!`,
     });
   }
 };
@@ -52,13 +52,6 @@ exports.login = async (req, res, next) => {
     return res.json({ success: false, message: 'Invalid Credentials!' });
   }
 
-  if (!user.emailVerified) {
-    return res.json({
-      success: false,
-      message: 'You must verify your email first!',
-    });
-  }
-
   sendTokenResponse(user, 200, res, 'User Logged In!');
 };
 
@@ -72,25 +65,25 @@ exports.logout = async (req, res, next) => {
     .json({ success: true, message: 'Logged Off' });
 };
 
-// Verify email address
-exports.verifyEmail = async (req, res, next) => {
-  const user = await User.findOne({ email: req.params.email });
+// // Verify email address
+// exports.verifyEmail = async (req, res, next) => {
+//   const user = await User.findOne({ email: req.params.email });
 
-  if (!user) {
-    return res.json({
-      success: false,
-      message: `No user with the email: ${req.params.email} found!`,
-    });
-  }
-  user.emailVerified = true;
+//   if (!user) {
+//     return res.json({
+//       success: false,
+//       message: `No user with the email: ${req.params.email} found!`,
+//     });
+//   }
+//   user.emailVerified = true;
 
-  await user.save({ validateBeforeSave: false });
+//   await user.save({ validateBeforeSave: false });
 
-  res.json({
-    success: true,
-    message: 'Email Verified!',
-  });
-};
+//   res.json({
+//     success: true,
+//     message: 'Email Verified!',
+//   });
+// };
 
 // Get Current Logged In User
 exports.getMe = async (req, res, next) => {
@@ -103,78 +96,78 @@ exports.getMe = async (req, res, next) => {
 };
 
 // Forgot Password Token
-exports.forgotPassword = async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+// exports.forgotPassword = async (req, res, next) => {
+//   const user = await User.findOne({ email: req.body.email });
 
-  if (!user) {
-    return res.json({
-      success: false,
-      message: `No user with the email: ${req.body.email} found!`,
-    });
-  }
+//   if (!user) {
+//     return res.json({
+//       success: false,
+//       message: `No user with the email: ${req.body.email} found!`,
+//     });
+//   }
 
-  const resetToken = await user.getResetPasswordToken();
+//   const resetToken = await user.getResetPasswordToken();
 
-  await user.save({ validateBeforeSave: false });
+//   await user.save({ validateBeforeSave: false });
 
-  // const resetUrl = `${req.protocol}://${req.get(
-  //   'host',
-  // )}/api/auth/resetpassword/${resetToken}`;
+//   // const resetUrl = `${req.protocol}://${req.get(
+//   //   'host',
+//   // )}/api/auth/resetpassword/${resetToken}`;
 
-  const resetUrl = `http://localhost:3000/resetpassword/${resetToken}`;
+//   const resetUrl = `http://localhost:3000/resetpassword/${resetToken}`;
 
-  const message = `Click the following link to reset your password: \n${resetUrl}`;
+//   const message = `Click the following link to reset your password: \n${resetUrl}`;
 
-  try {
-    await sendEmail({
-      email: user.email,
-      subject: 'Reset Password Token',
-      message,
-    });
+//   try {
+//     await sendEmail({
+//       email: user.email,
+//       subject: 'Reset Password Token',
+//       message,
+//     });
 
-    res.json({
-      success: true,
-      message: `Email to ${user.email} sent!`,
-    });
-  } catch (error) {
-    console.log(error);
+//     res.json({
+//       success: true,
+//       message: `Email to ${user.email} sent!`,
+//     });
+//   } catch (error) {
+//     console.log(error);
 
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+//     user.resetPasswordToken = undefined;
+//     user.resetPasswordExpire = undefined;
 
-    await user.save({ validateBeforeSave: false });
+//     await user.save({ validateBeforeSave: false });
 
-    return res.json({
-      success: false,
-      message: `Email to ${user.email} could not be sent!`,
-    });
-  }
-};
+//     return res.json({
+//       success: false,
+//       message: `Email to ${user.email} could not be sent!`,
+//     });
+//   }
+// };
 
-// Reset Password
-exports.resetPassword = async (req, res, next) => {
-  const resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(req.params.resettoken)
-    .digest('hex');
+// // Reset Password
+// exports.resetPassword = async (req, res, next) => {
+//   const resetPasswordToken = crypto
+//     .createHash('sha256')
+//     .update(req.params.resettoken)
+//     .digest('hex');
 
-  const user = await User.findOne({
-    resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now() },
-  });
+//   const user = await User.findOne({
+//     resetPasswordToken,
+//     resetPasswordExpire: { $gt: Date.now() },
+//   });
 
-  if (!user) {
-    return res.json({ success: false, message: 'Invalid Token!' });
-  }
+//   if (!user) {
+//     return res.json({ success: false, message: 'Invalid Token!' });
+//   }
 
-  user.password = req.body.password;
-  user.resetPasswordToken = undefined;
-  user.resetPasswordExpire = undefined;
+//   user.password = req.body.password;
+//   user.resetPasswordToken = undefined;
+//   user.resetPasswordExpire = undefined;
 
-  await user.save();
+//   await user.save();
 
-  sendTokenResponse(user, 200, res, 'User Logged In!');
-};
+//   sendTokenResponse(user, 200, res, 'User Logged In!');
+// };
 
 // Generating token and sending it in response
 const sendTokenResponse = (user, status, res, message) => {

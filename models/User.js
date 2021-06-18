@@ -22,17 +22,13 @@ const MongooseSchema = new mongoose.Schema({
   //   enum: ['user', 'publisher'],
   //   default: 'user',
   // },
-  emailVerified: {
-    type: Boolean,
-    default: false,
-  },
   password: {
     type: String,
     required: [true, 'Please enter a password'],
     select: false,
   },
-  resetPasswordToken: String,
-  resetPasswordExpire: Date,
+  // resetPasswordToken: String,
+  // resetPasswordExpire: Date,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -61,19 +57,19 @@ MongooseSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-MongooseSchema.methods.getResetPasswordToken = async function () {
-  const resetToken = await crypto.randomBytes(20).toString('hex');
+// MongooseSchema.methods.getResetPasswordToken = async function () {
+//   const resetToken = await crypto.randomBytes(20).toString('hex');
 
-  this.resetPasswordToken = await crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
+//   this.resetPasswordToken = await crypto
+//     .createHash('sha256')
+//     .update(resetToken)
+//     .digest('hex');
 
-  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+//   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
-  // this.save({ validateBeforeSave: false });
+//   // this.save({ validateBeforeSave: false });
 
-  return resetToken;
-};
+//   return resetToken;
+// };
 
 module.exports = mongoose.model('User', MongooseSchema);
